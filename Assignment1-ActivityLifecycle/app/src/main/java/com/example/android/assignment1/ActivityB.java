@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import static com.example.android.assignment1.ActivityA.restartCounter;
+
 public class ActivityB extends AppCompatActivity {
 
     @Override
@@ -15,7 +17,11 @@ public class ActivityB extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
     }
-
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        restartCounter = restartCounter + 1;
+    }
     @Override
     protected void onPause() {
         super.onPause();
