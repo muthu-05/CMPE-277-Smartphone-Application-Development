@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     @Override
@@ -15,21 +16,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void Launch(View v) {
-        EditText urlTextView = (EditText) findViewById(R.id.urlTextView);
-        Uri url = Uri.parse("http://" + urlTextView.getText().toString());
-
-        Intent urlIntent = new Intent(Intent.ACTION_VIEW, url);
-        startActivity(urlIntent);
-        finish();
-
+        TextView urlTextView = (TextView) findViewById(R.id.urlTextView);
+        String url = urlTextView.getText().toString();
+        //Incase of empty text box there is no action on click of the button
+        if(!url.equals("")) {
+            Intent urlIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://" + url));
+            startActivity(urlIntent);
+        }
     }
 
     public void Ring(View v) {
-        EditText phoneTextView = (EditText) findViewById(R.id.phoneTextView);
-        Uri phone = Uri.parse("tel:" + phoneTextView.getText().toString());
-        Intent phoneIntent = new Intent(Intent.ACTION_DIAL,phone);
-        startActivity(phoneIntent);
-
+        TextView phoneTextView = (TextView) findViewById(R.id.phoneTextView);
+        String phone = phoneTextView.getText().toString();
+        //Incase of empty text box
+        if(!phone.equals("")) {
+            Intent phoneIntent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
+            startActivity(phoneIntent);
+        }
     }
 
     public void CloseApp(View v) {
