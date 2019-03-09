@@ -22,7 +22,7 @@ public class THAsyncTask extends AsyncTask<Integer, Integer, Integer> {
         int tmin=25, tmax=100;
         int hmin=40, hmax=100;
         int amin=1, amax=500;
-        for (sensor=0; sensor <params[0];sensor++)
+        for (sensor=1; sensor <= params[0];sensor++)
         {
             int temperature = random.nextInt((tmax - tmin) + 1) + tmin;
             int humidity = random.nextInt((hmax - hmin) + 1) + hmin;
