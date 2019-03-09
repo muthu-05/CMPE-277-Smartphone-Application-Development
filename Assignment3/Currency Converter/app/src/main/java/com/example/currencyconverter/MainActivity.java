@@ -47,15 +47,16 @@ public class MainActivity extends AppCompatActivity {
 
         EditText amountEditText = (EditText) findViewById(R.id.amountEditText);
         String amount = amountEditText.getText().toString();
-
-        String currency = spinner.getSelectedItem().toString();
-        Intent intent = new Intent();
-        intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-        intent.setAction("com.example.currencyconverter.broadcast");
-        intent.putExtra("amount", amount);
-        intent.putExtra("currency", currency);
-        intent.setComponent(new ComponentName("com.example.currencyexchange","com.example.currencyexchange.CurrencyExchange"));
-        sendBroadcast(intent);
+        if(!amount.equals("")) {
+            String currency = spinner.getSelectedItem().toString();
+            Intent intent = new Intent();
+            intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+            intent.setAction("com.example.currencyconverter.broadcast");
+            intent.putExtra("amount", amount);
+            intent.putExtra("currency", currency);
+            intent.setComponent(new ComponentName("com.example.currencyexchange", "com.example.currencyexchange.CurrencyExchange"));
+            sendBroadcast(intent);
+        }
 
     }
     public void closeApp(View view) {
