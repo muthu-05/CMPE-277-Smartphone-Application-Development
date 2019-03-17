@@ -3,6 +3,7 @@ package com.example.androiddatastorage;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
                 inputStream.close();
                 TextView storedFiles=(TextView)findViewById(R.id.storedFiles);
                 storedFiles.setText(stringBuilder.toString());
+                storedFiles.setMovementMethod(new ScrollingMovementMethod());
             }
         }
         catch(Exception e)

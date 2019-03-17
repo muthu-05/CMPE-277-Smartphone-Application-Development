@@ -65,8 +65,11 @@ public class PreferenceView extends AppCompatActivity {
                 editor.putString("Description",description);
                 editor.commit();
 
+                String bookName = sharedPreferences.getString("BookName", "null");
+                String bookAuthor = sharedPreferences.getString("BookAuthor", "null");
+                String bookDescription = sharedPreferences.getString("Description", "null");
                 OutputStreamWriter outputStreamWriter=new OutputStreamWriter(openFileOutput(STORE_PREFERENCES,MODE_APPEND));
-                String message="\nSaved Preference "+counter+", "+simpleDateFormat.format(new Date());
+                String message = "\nSaved Preference " +counter+ "\nBookName: " + bookName + "\nBookAuthor: " + bookAuthor + "\nDescription: " + bookDescription+"\n" + simpleDateFormat.format(new Date());
                 outputStreamWriter.write(message);
                 outputStreamWriter.close();
             }
@@ -81,9 +84,9 @@ public class PreferenceView extends AppCompatActivity {
         }
         else {
             Toast.makeText(getApplicationContext(), "Invalid Entry", Toast.LENGTH_LONG).show();
+        }
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
-        }
     }
 
     public void cancel(View view)

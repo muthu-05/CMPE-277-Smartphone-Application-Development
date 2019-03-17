@@ -45,7 +45,8 @@ public class DataController
 
     public Cursor retrieve()
     {
-        return db.query(TABLE_NAME, new String[]{MESSAGE}, null, null, null, null, null);
+        Cursor cursor= db.query(TABLE_NAME, new String[]{MESSAGE}, null, null, null, null, null);
+        return cursor;
     }
 
     private static class DataBaseHelper extends SQLiteOpenHelper
