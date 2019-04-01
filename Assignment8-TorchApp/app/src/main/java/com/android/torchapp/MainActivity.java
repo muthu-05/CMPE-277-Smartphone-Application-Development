@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -24,9 +25,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     CameraManager cameraManager;
     SensorManager sensorManager;
     Sensor sensor;
+    Float sensorValue;
+    TextView displayTextView;
     private static final int CAMERA_REQUEST = 123;
     boolean hasCameraFlash = false;
-    Button flashLightButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,23 +38,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 new String[]{Manifest.permission.CAMERA}, CAMERA_REQUEST);
         hasCameraFlash = getPackageManager().
                 hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH);
-        flashLightButton = (Button) findViewById(R.id.flashlightButton);
         cameraManager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);
         sensorManager = (SensorManager) getSystemService(Service.SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        displayTextView = (TextView) findViewById(R.id.displayTextView);
     }
-
-    public void Click(View view) {
-        if (hasCameraFlash) {
-            Toast.makeText(MainActivity.this, "flash available on your device",
-                    Toast.LENGTH_SHORT).show();
-
-        } else {
-            Toast.makeText(MainActivity.this, "No flash available on your device",
-                    Toast.LENGTH_SHORT).show();
-        }
-    }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -67,34 +57,31 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     public void onSensorChanged(SensorEvent event) {
+        sensorValue = event.values[0];
         Log.d("LightValue",""+event.values[0]);
         if(event.values[0]==0) {
-            flashLightOn();
+            flashLightOn(sensorValue);
         }
         else {
-            flashLightOff();
+            flashLightOff(sensorValue);
         }
     }
-    public void flashLightOn() {
+    public void flashLightOn(Float sensorValue) {
         try {
-            String cameraId = cameraManager.getCameraIdList()[1];
+            String cameraId = cameraManager.getCameraIdList()[0];
             Log.d("LightOncameraId",cameraId);
-            if(cameraId==null) {
                 cameraManager.setTorchMode(cameraId, true);
-                Toast.makeText(getBaseContext(), "Flash Light On",
-                        Toast.LENGTH_LONG).show();
-            }
+                displayTextView.setText("Flash Light Turned ON\n Light Sensor Readings:"+ sensorValue );
         } catch (CameraAccessException e) {
         }
     }
 
-    public void flashLightOff() {
+    public void flashLightOff(Float sensorValue) {
         try {
-            String cameraId = cameraManager.getCameraIdList()[1];
+            String cameraId = cameraManager.getCameraIdList()[0];
             Log.d("LightOffcameraId",cameraId);
-
-            cameraManager.setTorchMode(cameraId, false);
-
+                cameraManager.setTorchMode(cameraId, false);
+            displayTextView.setText("Flash Light Turned OFF\n Light Sensor Readings:"+ sensorValue );
         } catch (CameraAccessException e) {
         }
     }
